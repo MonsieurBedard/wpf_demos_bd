@@ -55,5 +55,20 @@ namespace wpf_demo_phonebook
 
             return conn.ExecuteSelectQuery(_query, parameters);
         }
+
+        /// <summary>
+        /// Méthode permettant de retourner une table
+        /// </summary>
+        /// <returns>Une DataTable</returns>
+        public DataTable SelectAll()
+        {
+            string _query =
+                $"SELECT * " +
+                $"FROM [Contacts] ";
+
+            SqlParameter[] parameters = new SqlParameter[0];
+
+            return conn.ExecuteSelectQuery(_query, parameters);
+        }
     }
 }

@@ -60,5 +60,23 @@ namespace wpf_demo_phonebook
 
             return cm;
         }
+
+        public static IEnumerable<ContactModel> GetAll()
+        {
+            ContactModel contact = null;
+
+            DataTable dt = new DataTable();
+
+            dt = dao.SelectAll();
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    contact = RowToContactModel(row);
+                    yield return contact;
+                }
+            }
+        }
     }
 }
