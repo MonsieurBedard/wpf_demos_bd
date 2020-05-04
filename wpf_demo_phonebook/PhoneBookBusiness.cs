@@ -114,5 +114,10 @@ namespace wpf_demo_phonebook
                 }
             }
         }
+
+        public static void UpdateContactRow(ContactModel contact)
+        {
+            dao.UpdateRow(contact);
+        }
     }
 }

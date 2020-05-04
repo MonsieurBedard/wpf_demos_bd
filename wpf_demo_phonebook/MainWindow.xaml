@@ -19,8 +19,12 @@
                     <MenuItem Header="Nouveau contact"/>
                 </MenuItem>
                 <MenuItem Header="Enregistrement">
-                    <MenuItem Header="Enregistrer"/>
-                    <MenuItem Header="Supprimer"/>
+                    <MenuItem Header="Enregistrer"
+                        Command="{Binding SaveContactCommand}"
+                        CommandParameter="{Binding SelectedContact}"/>
+                    <MenuItem Header="Supprimer"
+                        Command="{Binding DeleteContactCommand}"
+                        CommandParameter="{Binding SelectedContact}"/>
                 </MenuItem>
             </Menu>
         </StackPanel>
@@ -84,12 +88,12 @@
             <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedContact.ContactID}"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right">
-                <Button Margin="5">
-                    <TextBlock Text="Enregistrer"/>
-                </Button>
-                <Button Margin="5">
-                    <TextBlock Text="Supprimer"/>
-                </Button>
+                <Button Margin="5" Content="Enregistrer"
+                    Command="{Binding SaveContactCommand}"
+                    CommandParameter="{Binding SelectedContact}"/>
+                <Button Margin="5" Content="Supprimer"
+                    Command="{Binding DeleteContactCommand}"
+                    CommandParameter="{Binding SelectedContact}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

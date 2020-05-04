@@ -43,11 +43,15 @@ namespace wpf_demo_phonebook.ViewModels
         }
 
         public RelayCommand SearchContactCommand { get; set; }
+        public RelayCommand SaveContactCommand { get; set; }
+        public RelayCommand DeleteContactCommand { get; set; }
 
         public MainViewModel()
         {
             // Commands
             SearchContactCommand = new RelayCommand(SearchContact);
+            SaveContactCommand = new RelayCommand(SaveContact);
+            DeleteContactCommand = new RelayCommand(DeleteContact);
 
             // Values init
             Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetAll().ToList());
@@ -102,6 +106,20 @@ namespace wpf_demo_phonebook.ViewModels
                     MessageBox.Show("No contact found");
                 }
             }
+        }
+
+        private void SaveContact(object parameter)
+        {
+            var contact = parameter as ContactModel;
+            int currentIndex = Contacts.IndexOf(contact); 
+            PhoneBookBusiness.UpdateContactRow(contact);
+            RestoreContactList();
+            SelectedContact = Contacts[currentIndex];
+        }
+
+        private void DeleteContact(object parameter)
+        {
+            MessageBox.Show("Delete");
         }
     }
 }
