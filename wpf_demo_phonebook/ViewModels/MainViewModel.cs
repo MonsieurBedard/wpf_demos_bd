@@ -45,6 +45,7 @@ namespace wpf_demo_phonebook.ViewModels
         public RelayCommand SearchContactCommand { get; set; }
         public RelayCommand SaveContactCommand { get; set; }
         public RelayCommand DeleteContactCommand { get; set; }
+        public RelayCommand NewContactCommand { get; set; }
 
         public MainViewModel()
         {
@@ -52,10 +53,9 @@ namespace wpf_demo_phonebook.ViewModels
             SearchContactCommand = new RelayCommand(SearchContact);
             SaveContactCommand = new RelayCommand(SaveContact);
             DeleteContactCommand = new RelayCommand(DeleteContact);
+            NewContactCommand = new RelayCommand(NewContact);
 
-            // Values init
-            Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetAll().ToList());
-            SelectedContact = Contacts[0];
+            RestoreContactList();
         }
 
         private void RestoreContactList()
@@ -111,10 +111,25 @@ namespace wpf_demo_phonebook.ViewModels
         private void SaveContact(object parameter)
         {
             var contact = parameter as ContactModel;
-            int currentIndex = Contacts.IndexOf(contact); 
-            PhoneBookBusiness.UpdateContactRow(contact);
-            RestoreContactList();
-            SelectedContact = Contacts[currentIndex];
+            if (!contact.isNew)
+            {
+                int currentIndex = Contacts.IndexOf(contact);
+                PhoneBookBusiness.UpdateContactRow(contact);
+                RestoreContactList();
+                SelectedContact = Contacts[currentIndex];
+            }
+            else
+            {
+                PhoneBookBusiness.NewContactRow(contact);
+                RestoreContactList();
+                SelectedContact = Contacts[Contacts.Count - 1];
+
+                // remove duplicate because ???
+                PhoneBookBusiness.DeleteContactRow(SelectedContact);
+
+                RestoreContactList();
+                SelectedContact = Contacts[Contacts.Count - 1];
+            }
         }
 
         private void DeleteContact(object parameter)
@@ -126,6 +141,14 @@ namespace wpf_demo_phonebook.ViewModels
                 PhoneBookBusiness.DeleteContactRow(contact);
                 RestoreContactList();
             }
+        }
+
+        private void NewContact(object parameter)
+        {
+            var contact = new ContactModel();
+            contact.isNew = true;
+            Contacts.Add(contact);
+            SelectedContact = contact;
         }
     }
 }

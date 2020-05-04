@@ -124,5 +124,10 @@ namespace wpf_demo_phonebook
         {
             dao.DeleteRow(contact.ContactID);
         }
+
+        public static void NewContactRow(ContactModel contact)
+        {
+            dao.InsertRow(contact);
+        }
     }
 }

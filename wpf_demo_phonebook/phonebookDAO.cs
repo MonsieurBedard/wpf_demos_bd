@@ -113,5 +113,31 @@ namespace wpf_demo_phonebook
 
             conn.ExecuteSelectQuery(_query, parameters);
         }
+
+        public void InsertRow(ContactModel contact)
+        {
+            string _query =
+                $"INSERT INTO [Contacts] (FirstName, LastName, Email, Phone, Mobile) " +
+                $"VALUES (@_FirstName, @_LastName, @_Email, @_Phone, @_Mobile) ";
+
+            SqlParameter[] parameters = new SqlParameter[5];
+
+            parameters[0] = new SqlParameter("@_FirstName", SqlDbType.NVarChar);
+            parameters[0].Value = contact.FirstName;
+
+            parameters[1] = new SqlParameter("@_LastName", SqlDbType.NVarChar);
+            parameters[1].Value = contact.LastName;
+
+            parameters[2] = new SqlParameter("@_Email", SqlDbType.NVarChar);
+            parameters[2].Value = contact.Email;
+
+            parameters[3] = new SqlParameter("@_Phone", SqlDbType.NVarChar);
+            parameters[3].Value = contact.Phone;
+
+            parameters[4] = new SqlParameter("@_Mobile", SqlDbType.NVarChar);
+            parameters[4].Value = contact.Mobile;
+
+            conn.ExecuteSelectQuery(_query, parameters);
+        }
     }
 }

@@ -32,9 +32,8 @@
         <!-- Toolbar -->
 
         <ToolBar DockPanel.Dock="Top">
-            <Button>
-                <TextBlock Text="Nouveau contact"/>
-            </Button>
+            <Button Content="Nouveau contact"
+                    Command="{Binding NewContactCommand}"/>
             <Separator/>
             <TextBlock Text="Recherche : " Margin="4"/>
             <TextBox x:Name="txtCriteria" HorizontalAlignment="Right" Width="150"/>
@@ -85,7 +84,7 @@
             <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding SelectedContact.Email}"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding SelectedContact.Phone}"/>
             <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding SelectedContact.Mobile}"/>
-            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedContact.ContactID}"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding SelectedContact.ContactID, Mode=OneWay}"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right">
                 <Button Margin="5" Content="Enregistrer"
