@@ -119,7 +119,13 @@ namespace wpf_demo_phonebook.ViewModels
 
         private void DeleteContact(object parameter)
         {
-            MessageBox.Show("Delete");
+            MessageBoxResult messageBoxResult = System.Windows.MessageBox.Show("Are you sure?", "Delete Confirmation", System.Windows.MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                var contact = parameter as ContactModel;
+                PhoneBookBusiness.DeleteContactRow(contact);
+                RestoreContactList();
+            }
         }
     }
 }
