@@ -50,35 +50,57 @@ namespace wpf_demo_phonebook.ViewModels
             SearchContactCommand = new RelayCommand(SearchContact);
 
             // Values init
-            SelectedContact = PhoneBookBusiness.GetContactByID(1);
             Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetAll().ToList());
+            SelectedContact = Contacts[0];
+        }
+
+        private void RestoreContactList()
+        {
+            Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetAll().ToList());
+            SelectedContact = Contacts[0];
         }
 
         private void SearchContact(object parameter)
         {
             string input = parameter as string;
-            int output;
-            string searchMethod;
-            if (!Int32.TryParse(input, out output))
+            if (input.Length == 0)
             {
-                searchMethod = "name";
+                RestoreContactList();
             }
             else
             {
-                searchMethod = "id";
-            }
+                int output;
+                string searchMethod;
+                if (!Int32.TryParse(input, out output))
+                {
+                    searchMethod = "name";
+                }
+                else
+                {
+                    searchMethod = "id";
+                }
 
-            switch (searchMethod)
-            {
-                case "id":
-                    SelectedContact = PhoneBookBusiness.GetContactByID(output);
-                    break;
-                case "name":
-                    SelectedContact = PhoneBookBusiness.GetContactByName(input);
-                    break;
-                default:
-                    MessageBox.Show("Unkonwn search method");
-                    break;
+                switch (searchMethod)
+                {
+                    case "id":
+                        Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetContactListByID(output).ToList());
+                        break;
+                    case "name":
+                        Contacts = new ObservableCollection<ContactModel>(PhoneBookBusiness.GetContactListByName(input).ToList());
+                        break;
+                    default:
+                        MessageBox.Show("Unkonwn search method");
+                        break;
+                }
+
+                if (Contacts.Count != 0)
+                {
+                    SelectedContact = Contacts[0];
+                }
+                else
+                {
+                    MessageBox.Show("No contact found");
+                }
             }
         }
     }

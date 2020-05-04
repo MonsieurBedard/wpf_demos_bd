@@ -28,6 +28,24 @@ namespace wpf_demo_phonebook
             return cm;
         }
 
+        public static IEnumerable<ContactModel> GetContactListByName(string _name)
+        {
+            ContactModel cm = null;
+
+            DataTable dt = new DataTable();
+
+            dt = dao.SearchByName(_name);
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    cm = RowToContactModel(row);
+                    yield return cm;
+                }
+            }
+        }
+
         public static ContactModel GetContactByID(int _id)
         {
             ContactModel cm = null;
@@ -45,6 +63,24 @@ namespace wpf_demo_phonebook
             }
 
             return cm;
+        }
+
+        public static IEnumerable<ContactModel> GetContactListByID(int _id)
+        {
+            ContactModel cm = null;
+
+            DataTable dt = new DataTable();
+
+            dt = dao.SearchByID(_id);
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    cm = RowToContactModel(row);
+                    yield return cm;
+                }
+            }
         }
 
         private static ContactModel RowToContactModel(DataRow row)
